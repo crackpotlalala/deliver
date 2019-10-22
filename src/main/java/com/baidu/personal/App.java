@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2018 Baidu.com, Inc. All Rights Reserved
  */
-package com.baidu.personal-code;
+package com.baidu.personal;
 
 /**
  * Hello world!
