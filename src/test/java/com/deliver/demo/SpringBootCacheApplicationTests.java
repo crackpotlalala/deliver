@@ -3,6 +3,7 @@ package com.deliver.demo;
 import com.deliver.demo.entity.Student;
 import com.deliver.demo.mapper.StudentMapper;
 import com.deliver.demo.service.StudentService;
+import com.deliver.demo.utils.RedisUtils;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,6 +63,13 @@ public class SpringBootCacheApplicationTests {
     @Test
     public void clearSpringCache() {
         studentService.clearCache(1);
+    }
+
+    @Test
+    public void testRedisUtils() {
+        RedisUtils.setStringValue("test", "testString");
+        System.out.print("get value of :" +
+                RedisUtils.getStringValue("test"));
     }
 
 
