@@ -2,13 +2,14 @@ package com.deliver.demo.config.cache;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
@@ -18,13 +19,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import java.time.Duration;
 
 @Configuration
+@EnableCaching
 public class RedisConfig {
 
     @Value("${default.springcache.redis.expire.time}")
     private Long expireTime;
 
     @Bean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory redisConnectionFactory) {
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         //参照StringRedisTemplate内部实现指定序列化器
@@ -50,12 +52,13 @@ public class RedisConfig {
     /**
      * 默认注入的RedisCacheManager操作缓存用的是RedisTemplate<Object, Object>，
      * 因此我们需要自定义cacheManager，替换掉默认的序列化器。
+     *
      * @param redisConnectionFactory
      * @return
      */
     @Primary
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+    public CacheManager cacheManager(LettuceConnectionFactory redisConnectionFactory) {
         //缓存配置对象
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
 

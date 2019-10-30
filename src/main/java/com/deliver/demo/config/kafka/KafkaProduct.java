@@ -22,11 +22,19 @@ public class KafkaProduct {
 
     private Gson gson = new GsonBuilder().create();
 
-    public void send() {
+    public void sendOne() {
         Message message = new Message();
         message.setId(System.currentTimeMillis());
         message.setMsg(UUID.randomUUID().toString());
         message.setSendTime(new Date());
-        kafkaTemplate.send("abc123", gson.toJson(message));
+        kafkaTemplate.send("test", gson.toJson(message));
+    }
+
+    public void sendTwo() {
+        Message message = new Message();
+        message.setId(System.currentTimeMillis());
+        message.setMsg(UUID.randomUUID().toString());
+        message.setSendTime(new Date());
+        kafkaTemplate.send("test2", gson.toJson(message));
     }
 }

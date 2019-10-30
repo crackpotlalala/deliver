@@ -20,7 +20,7 @@ public class SpringKafkaApplicationTest {
     @Test
     public void testKafka() {
         for (int i = 0; i < 3; i++) {
-            kafkaProduct.send();
+            kafkaProduct.sendOne();
 
             try {
                 Thread.sleep(3_000);
