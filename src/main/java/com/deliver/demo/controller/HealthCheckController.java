@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 健康检查
- *
- * @author zyy
+ * 服务启动的健康检查
  */
 @RestController
 @RequestMapping("/check")
