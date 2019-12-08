@@ -15,7 +15,7 @@ import java.util.UUID;
  * kafka 消息发送者
  */
 @Component
-public class KafkaProduct {
+public class KafkaProducer {
 
     @Autowired
     private KafkaTemplate kafkaTemplate;

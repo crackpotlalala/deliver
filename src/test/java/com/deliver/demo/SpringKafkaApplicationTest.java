@@ -1,6 +1,6 @@
 package com.deliver.demo;
 
-import com.deliver.demo.config.kafka.KafkaProduct;
+import com.deliver.demo.config.kafka.KafkaProducer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class SpringKafkaApplicationTest {
 
     @Autowired
-    private KafkaProduct kafkaProduct;
+    private KafkaProducer kafkaProducer;
 
     /**
      * kafka 消息发送测试
@@ -20,7 +20,7 @@ public class SpringKafkaApplicationTest {
     @Test
     public void testKafka() {
         for (int i = 0; i < 3; i++) {
-            kafkaProduct.sendOne();
+            kafkaProducer.sendOne();
 
             try {
                 Thread.sleep(3_000);

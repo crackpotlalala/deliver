@@ -2,9 +2,8 @@ package com.deliver.demo.config.webhookFilter;
 
 import com.deliver.demo.entity.WebhookRequest;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -25,13 +24,12 @@ import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 /**
- * 拦截相应请求，修改请求路由
+ * 过滤相应请求，修改请求路由
  * 当进入url为/webhook时，将其url修改为/webhook/action
  * 其中 action 为 ngd 设置的 requestBody 的接口分发参数
  **/
+@Slf4j
 public class WebHookFilter implements Filter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebHookFilter.class);
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -47,7 +45,7 @@ public class WebHookFilter implements Filter {
         if (request instanceof HttpServletRequest) {
             requestWrapper = new BodyReaderHttpServletRequestWrapper((HttpServletRequest) request);
         }
-        LOGGER.info("original webHook request url :" + httpRequest.getRequestURI());
+        log.info("original webHook request url :" + httpRequest.getRequestURI());
         String path = httpRequest.getRequestURI();
         Gson gson = new Gson();
         String body = requestWrapper.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
@@ -56,10 +54,10 @@ public class WebHookFilter implements Filter {
         String action = requestBody.getAction();
         if (StringUtils.isNoneBlank(action)) {
             String convertPath = path + "/" + action;
-            LOGGER.info("webHook request url after convert :" + convertPath);
+            log.info("webHook request url after convert :" + convertPath);
             requestWrapper.getRequestDispatcher(convertPath).forward(requestWrapper, response);
         } else {
-            LOGGER.error("webHook request need a valid action param ");
+            log.error("webHook request need a valid action param ");
         }
         return;
     }
